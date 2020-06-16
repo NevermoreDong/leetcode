@@ -1,10 +1,10 @@
 题目要求O（logN）的时间复杂度，基本可以断定本题是需要使用二分查找，怎么分是关键
 由于题目说数字了无重复，举个例子
 1 2 3 4 5 6 7 可以大致分为两类,
-第一类 2 3 4 5 6 7 1这种，也就是nums[start] <= nums[mid]。此例子中就是2 <= 5
+第一类 2 3 4 5 6 7 1 这种，也就是nums[start] <= nums[mid]。此例子中就是2 <= 5
 这种情况下，前半部分有序。因此如果 nums[start] <=target<nums[mid]。则在前半部分找，
 否则去后半部分找。
-第二类 6 7 1 2 3 4 5这种，也就是nums[start] > nums[mid]。此例子中就是6 > 2
+第二类 6 7 1 2 3 4 5 这种，也就是nums[start] > nums[mid]。此例子中就是6 > 2
 这种情况下，后半部分有序。因此如果 nums[mid] <target<=nums[end]。则在后半部分找，
 否则去前半部分找。
 
@@ -40,4 +40,27 @@ class Solution:
         # 后处理
         return left if nums[left] == target else -1
 
+# 不是模板解法，自己天然想法
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        size = len(nums)
+        if size == 0: return -1
+        left = 0
+        right = size - 1
+        while left < right :
+            mid = (left + right) >> 1
+            if target == nums[mid]:
+                return mid
+            if nums[mid] < nums[right]:
+                if nums[mid+1] <= target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            else:
+                if nums[left] <= target <= nums[mid-1]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+        return left if nums[left] == target else -1
 
