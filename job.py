@@ -22,3 +22,5 @@ if __name__ == "__main__":
     target = 8
     res = solution(candidates, target)
     print(res)
+
+test from cp
